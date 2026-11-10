@@ -25,6 +25,13 @@ class _LocationCardState extends State<LocationCard> {
     try {
       final posicao = await widget.locationService.obterPosicaoAtual();
       if (mounted) setState(() => _posicao = posicao);
+    } on LocalizacaoException catch (erro) {
+      if (!mounted) return;
+      if (erro.resolveNasConfiguracoes) {
+        mostrarMensagemComAtivar(context, erro.mensagem);
+      } else {
+        mostrarMensagem(context, erro.mensagem);
+      }
     } catch (erro) {
       if (mounted) mostrarMensagem(context, erro.toString());
     } finally {

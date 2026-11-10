@@ -3,9 +3,10 @@ import 'dart:async';
 import 'package:geolocator/geolocator.dart';
 
 class LocalizacaoException implements Exception {
-  const LocalizacaoException(this.mensagem);
+  const LocalizacaoException(this.mensagem, {this.resolveNasConfiguracoes = false});
 
   final String mensagem;
+  final bool resolveNasConfiguracoes;
 
   @override
   String toString() => mensagem;
@@ -53,6 +54,7 @@ class LocationService {
     if (permissao == LocationPermission.deniedForever) {
       throw const LocalizacaoException(
         'Permissão negada de vez. Libere a localização nas configurações do app.',
+        resolveNasConfiguracoes: true,
       );
     }
   }

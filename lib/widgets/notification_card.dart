@@ -24,6 +24,8 @@ class _NotificationCardState extends State<NotificationCard> {
         mensagem: 'Pacote entregue com foto e local registrados.',
       );
       if (mounted) setState(() => _entregaConfirmada = true);
+    } on PermissaoNegadaException catch (erro) {
+      if (mounted) mostrarMensagemComAtivar(context, erro.toString());
     } catch (erro) {
       if (mounted) mostrarMensagem(context, erro.toString());
     }
