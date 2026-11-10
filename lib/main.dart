@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 
 import 'screens/home_screen.dart';
+import 'services/notification_service.dart';
 
-void main() {
-  runApp(const EntregaJaApp());
+Future<void> main() async {
+  // O plugin de notificações precisa estar pronto antes de desenhar a tela.
+  WidgetsFlutterBinding.ensureInitialized();
+  final notificationService = NotificationService();
+  await notificationService.inicializar();
+  runApp(EntregaJaApp(notificationService: notificationService));
 }
 
 class EntregaJaApp extends StatelessWidget {
-  const EntregaJaApp({super.key});
+  const EntregaJaApp({super.key, required this.notificationService});
+
+  final NotificationService notificationService;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +45,7 @@ class EntregaJaApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const HomeScreen(),
+      home: HomeScreen(notificationService: notificationService),
     );
   }
 }

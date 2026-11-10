@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 
 import '../services/camera_service.dart';
 import '../services/location_service.dart';
+import '../services/notification_service.dart';
 import '../widgets/camera_card.dart';
 import '../widgets/location_card.dart';
+import '../widgets/notification_card.dart';
 
 /// Tela única do app: um cartão por recurso nativo, na ordem de uma entrega.
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({super.key, required this.notificationService});
+
+  final NotificationService notificationService;
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +23,7 @@ class HomeScreen extends StatelessWidget {
           const _HomeHeader(),
           CameraCard(cameraService: CameraService()),
           const LocationCard(locationService: LocationService()),
+          NotificationCard(notificationService: notificationService),
         ],
       ),
     );
