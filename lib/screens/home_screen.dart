@@ -1,0 +1,60 @@
+import 'package:flutter/material.dart';
+
+import '../services/camera_service.dart';
+import '../widgets/camera_card.dart';
+
+/// Tela única do app: um cartão por recurso nativo, na ordem de uma entrega.
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('EntregaJá')),
+      body: ListView(
+        padding: const EdgeInsets.only(bottom: 24),
+        children: [
+          const _HomeHeader(),
+          CameraCard(cameraService: CameraService()),
+        ],
+      ),
+    );
+  }
+}
+
+class _HomeHeader extends StatelessWidget {
+  const _HomeHeader();
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    final texts = Theme.of(context).textTheme;
+
+    return Container(
+      margin: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: colors.primaryContainer,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Column(
+        children: [
+          Icon(Icons.local_shipping, size: 56, color: colors.primary),
+          const SizedBox(height: 8),
+          Text(
+            'EntregaJá',
+            style: texts.headlineMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: colors.onPrimaryContainer,
+            ),
+          ),
+          Text(
+            'Foto, local e pronto: entrega comprovada.',
+            textAlign: TextAlign.center,
+            style: texts.bodyLarge?.copyWith(color: colors.onPrimaryContainer),
+          ),
+        ],
+      ),
+    );
+  }
+}
