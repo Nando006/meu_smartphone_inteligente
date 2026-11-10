@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../services/camera_service.dart';
+import '../services/location_service.dart';
 import '../widgets/camera_card.dart';
+import '../widgets/location_card.dart';
 
 /// Tela única do app: um cartão por recurso nativo, na ordem de uma entrega.
 class HomeScreen extends StatelessWidget {
@@ -16,6 +18,7 @@ class HomeScreen extends StatelessWidget {
         children: [
           const _HomeHeader(),
           CameraCard(cameraService: CameraService()),
+          const LocationCard(locationService: LocationService()),
         ],
       ),
     );

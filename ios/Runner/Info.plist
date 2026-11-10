@@ -28,6 +28,8 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Usamos a câmera para fotografar o pacote e comprovar a entrega.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Usamos sua localização só para registrar onde o pacote foi entregue.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>O app pode acessar suas fotos para escolher uma imagem.</string>
 	<key>UIApplicationSceneManifest</key>
