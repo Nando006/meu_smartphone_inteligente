@@ -7,6 +7,13 @@ class PermissaoNegadaException implements Exception {
   String toString() => 'Notificações desativadas. Ative para receber o aviso de entrega.';
 }
 
+class NotificacaoIndisponivelException implements Exception {
+  const NotificacaoIndisponivelException();
+
+  @override
+  String toString() => 'Notificações indisponíveis neste aparelho.';
+}
+
 /// Encapsula as notificações locais (geradas no próprio aparelho, sem servidor).
 class NotificationService {
   static const _detalhes = NotificationDetails(
@@ -22,6 +29,7 @@ class NotificationService {
 
   final _plugin = FlutterLocalNotificationsPlugin();
   int _proximoId = 0;
+  bool _inicializado = false;
 
   Future<void> inicializar() async {
     const configuracoes = InitializationSettings(
@@ -37,12 +45,15 @@ class NotificationService {
     if (inicializou == false) {
       throw StateError('Não foi possível inicializar as notificações.');
     }
+    _inicializado = true;
   }
 
   Future<void> mostrarNotificacao({
     required String titulo,
     required String mensagem,
   }) async {
+    if (!_inicializado) throw const NotificacaoIndisponivelException();
+
     final permitido = await _pedirPermissao();
     if (!permitido) throw const PermissaoNegadaException();
 

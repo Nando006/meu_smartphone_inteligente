@@ -7,7 +7,12 @@ Future<void> main() async {
   // O plugin de notificações precisa estar pronto antes de desenhar a tela.
   WidgetsFlutterBinding.ensureInitialized();
   final notificationService = NotificationService();
-  await notificationService.inicializar();
+  try {
+    await notificationService.inicializar();
+  } catch (erro) {
+    // Sem notificação, os outros três recursos ainda funcionam: o app abre e só o cartão avisa.
+    debugPrint('Notificações indisponíveis: $erro');
+  }
   runApp(EntregaJaApp(notificationService: notificationService));
 }
 

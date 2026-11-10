@@ -31,7 +31,8 @@ class _CameraCardState extends State<CameraCard> {
       }
       setState(() => _foto = foto);
     } catch (erro) {
-      if (mounted) mostrarMensagem(context, 'Não foi possível usar a câmera: $erro');
+      debugPrint('Erro na câmera: $erro'); // o detalhe técnico fica no console, não na tela
+      if (mounted) mostrarMensagem(context, 'Não foi possível abrir a câmera. Tente de novo.');
     } finally {
       if (mounted) setState(() => _cameraAberta = false);
     }

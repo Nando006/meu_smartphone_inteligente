@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 
 import '../services/location_service.dart';
 import 'estilos.dart';
@@ -17,20 +16,21 @@ class LocationCard extends StatefulWidget {
 }
 
 class _LocationCardState extends State<LocationCard> {
-  Position? _posicao;
+  LeituraDeLocal? _leitura;
   bool _buscando = false;
 
   Future<void> _registrarLocal() async {
     setState(() => _buscando = true);
     try {
-      final posicao = await widget.locationService.obterPosicaoAtual();
-      if (mounted) setState(() => _posicao = posicao);
+      final leitura = await widget.locationService.obterPosicaoAtual();
+      if (mounted) setState(() => _leitura = leitura);
     } on LocalizacaoException catch (erro) {
       if (!mounted) return;
-      if (erro.resolveNasConfiguracoes) {
-        mostrarMensagemComAtivar(context, erro.mensagem);
-      } else {
+      final abrirConfiguracoes = erro.abrirConfiguracoes;
+      if (abrirConfiguracoes == null) {
         mostrarMensagem(context, erro.mensagem);
+      } else {
+        mostrarMensagemComAtivar(context, erro.mensagem, aoAtivar: abrirConfiguracoes);
       }
     } catch (erro) {
       if (mounted) mostrarMensagem(context, erro.toString());
@@ -70,15 +70,18 @@ class _LocationCardState extends State<LocationCard> {
         ],
       );
     }
-    final posicao = _posicao;
-    if (posicao == null) {
+    final leitura = _leitura;
+    if (leitura == null) {
       return const Text('Local ainda não registrado', textAlign: TextAlign.center);
     }
+    final posicao = leitura.posicao;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Latitude: ${posicao.latitude.toStringAsFixed(6)}', style: estiloDeLeitura),
         Text('Longitude: ${posicao.longitude.toStringAsFixed(6)}', style: estiloDeLeitura),
+        if (leitura.ehUltimaConhecida)
+          const Text('Última posição conhecida: o GPS não respondeu a tempo.'),
       ],
     );
   }
