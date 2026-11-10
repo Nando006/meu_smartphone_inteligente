@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../services/camera_service.dart';
 import '../services/location_service.dart';
 import '../services/notification_service.dart';
+import '../services/sensor_service.dart';
+import '../widgets/accelerometer_card.dart';
 import '../widgets/camera_card.dart';
 import '../widgets/location_card.dart';
 import '../widgets/notification_card.dart';
@@ -24,6 +26,7 @@ class HomeScreen extends StatelessWidget {
           CameraCard(cameraService: CameraService()),
           const LocationCard(locationService: LocationService()),
           NotificationCard(notificationService: notificationService),
+          const AccelerometerCard(sensorService: SensorService()),
         ],
       ),
     );
